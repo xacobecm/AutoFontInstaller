@@ -6,12 +6,19 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import controller.API;
+import model.Font;
+
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
+import java.util.ArrayList;
+
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import java.awt.FlowLayout;
@@ -40,10 +47,15 @@ public class MainView extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public MainView() {
+	public MainView() throws Exception {
+		
+		DefaultListModel<Font> listModel = new DefaultListModel<Font>();
+		API api = new API();
+		ArrayList<Font> fonts = api.getFontList();
+		for( int i = 0; i < fonts.size(); i++ ) {
+			listModel.addElement(fonts.get(i));
+		}
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -70,6 +82,7 @@ public class MainView extends JFrame {
 		panelTable.add(scrollPane, BorderLayout.CENTER);
 		
 		JList listFont = new JList();
+		listFont.setModel(listModel);
 		scrollPane.setViewportView(listFont);
 		
 		JPanel panelButton = new JPanel();
