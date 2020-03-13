@@ -23,13 +23,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import java.awt.FlowLayout;
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainView extends JFrame {
 
 	//TODO: SET FIXED WINDOW SCREEN
 	
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField txtSearch;
+	JList<Font> listFont;
 
 	/**
 	 * Launch the application.
@@ -45,6 +48,19 @@ public class MainView extends JFrame {
 				}
 			}
 		});
+	}
+	
+	public void updateList(String search) throws Exception {
+		DefaultListModel<Font> listModel = new DefaultListModel<Font>();
+		API api = new API();
+		ArrayList<Font> fonts = api.getFontList();
+		for( int i = 0; i < fonts.size(); i++ ) {
+			if ( fonts.get(i).getName().matches("(.*)" + search + "(.*)") ) {
+				listModel.addElement(fonts.get(i));
+			}
+		}
+		
+		listFont.setModel(listModel);
 	}
 
 	public MainView() throws Exception {
@@ -67,11 +83,24 @@ public class MainView extends JFrame {
 		contentPane.add(panelSearch);
 		panelSearch.setLayout(new FlowLayout(FlowLayout.TRAILING, 5, 5));
 		
-		textField = new JTextField();
-		panelSearch.add(textField);
-		textField.setColumns(30);
+		txtSearch = new JTextField();
+		panelSearch.add(txtSearch);
+		txtSearch.setColumns(30);
 		
 		JButton btnNewButton = new JButton("Search");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String searchString = txtSearch.getText();
+					System.out.println(searchString);
+					updateList(searchString);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		panelSearch.add(btnNewButton);
 		
 		JPanel panelTable = new JPanel();
@@ -81,7 +110,7 @@ public class MainView extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		panelTable.add(scrollPane, BorderLayout.CENTER);
 		
-		JList listFont = new JList();
+		listFont = new JList<Font>();
 		listFont.setModel(listModel);
 		scrollPane.setViewportView(listFont);
 		
