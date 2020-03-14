@@ -120,6 +120,13 @@ public class MainView extends JFrame {
 		contentPane.add(panelButton);
 		
 		JButton btnNewButton_1 = new JButton("Open");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FontView fv = new FontView();
+				fv.setFont(listFont.getSelectedValue());
+				fv.setVisible(true);
+			}
+		});
 		panelButton.add(btnNewButton_1);
 	}
 
