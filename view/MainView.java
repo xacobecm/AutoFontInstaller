@@ -14,15 +14,11 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridLayout;
 import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import java.awt.FlowLayout;
-import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -30,6 +26,10 @@ public class MainView extends JFrame {
 
 	//TODO: SET FIXED WINDOW SCREEN
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8077248379143648257L;
 	private JPanel contentPane;
 	private JTextField txtSearch;
 	JList<Font> listFont;

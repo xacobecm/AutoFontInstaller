@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -11,7 +12,6 @@ import model.*;
 
 public class API {
 	
-	//API KEY:  https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyBKyVoc_pHs8e4GbC3N7_y4D2L3sUr-eYg
 	//TODO: Better exception handling
 	public ArrayList<Font> getFontList() throws Exception {
 		//Font has Variant[] variants. From the JSON we build Font objects and return them in an array to the view to draw them in the JList.
@@ -49,10 +49,28 @@ public class API {
 				fonts.add(font);
 			}
 			
+			sc.close();
 			return fonts;
 		} else {
 			throw new Exception("Error getting from Google API");
 		}
+	}
+	
+	public boolean installFont(Variant v) {
+		try {
+			String[] cmd = { "/bin/sh", "-c", "cd $HOME/.local/share/fonts; wget " + v.getUrl() + "; fc-cache -f -v" };
+			Process p = Runtime.getRuntime().exec(cmd);
+			p.waitFor();
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
 	}
 	
 }

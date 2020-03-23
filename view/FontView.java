@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.API;
 import model.Font;
 import model.Variant;
 
@@ -14,15 +15,19 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
 import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class FontView extends JFrame {
 
 	private JPanel contentPane;
 	Font font;
 	JList<Variant> listVariant;
+	API api = new API();
 
 	/**
 	 * Launch the application.
@@ -80,6 +85,16 @@ public class FontView extends JFrame {
 		contentPane.add(panel_1);
 		
 		JButton btnInstall = new JButton("Install");
+		btnInstall.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Variant selected = listVariant.getSelectedValue();
+				boolean success = api.installFont(selected);
+				if ( success ) {
+					JOptionPane.showMessageDialog(null, "Font installed succesfully");
+				}
+				
+			}
+		});
 		panel_1.add(btnInstall);
 	}
 
